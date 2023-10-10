@@ -1,4 +1,5 @@
 using System.Text;
+using API;
 using API.Data;
 using API.Extensions;
 using API.Interfaces;
@@ -12,21 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddApplicationServices(builder.Configuration);
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true, //serwer sprawdza klucze
-                        IssuerSigningKey = new SymmetricSecurityKey(    
-                            Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
-                            ValidateIssuer = false,
-                            ValidateAudience = false
-                    };
-                });
-
-
+builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
